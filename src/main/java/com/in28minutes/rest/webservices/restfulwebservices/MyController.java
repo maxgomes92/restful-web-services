@@ -15,4 +15,9 @@ public class MyController {
 
         return list;
     }
+
+    @GetMapping(path = "/bean")
+    public MyBean bean () {
+        return  new MyBean("Bean");
+    }
 }
