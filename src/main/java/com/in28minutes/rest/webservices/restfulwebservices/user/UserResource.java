@@ -2,6 +2,7 @@ package com.in28minutes.rest.webservices.restfulwebservices.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,9 @@ import java.util.List;
 public class UserResource {
     @Autowired
     private UserDaoService userDaoService;
+
+    @Autowired
+    private PostDaoService postDaoService;
 
     @GetMapping(path = "users")
     public List<User> retrieveAllUsers () {
@@ -43,5 +47,32 @@ public class UserResource {
                 .toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping(path = "users/{id}/posts")
+    public List<Post> getPosts(@PathVariable int id) {
+        return postDaoService.getPosts(id);
+    }
+
+    @PostMapping(path = "users/{id}/posts")
+    public Post craetePost(@PathVariable int id, @RequestBody String message) {
+        var user = userDaoService.findOne(id);
+        return postDaoService.createPostByUser(user, message);
+    }
+
+    @GetMapping(path = "users/{userId}/posts/{postId}")
+    public Post getPostFromUser (@PathVariable int userId, @PathVariable int postId) {
+        return postDaoService.getPostById(userId, postId);
+    }
+
+    @DeleteMapping(path = "users/{id}")
+    public ResponseEntity deleteUserById (@PathVariable int id) {
+        var isDeleted = userDaoService.deleteUser(id);
+
+        if (!isDeleted) {
+            throw new UserNotFoundException("User not found " + id);
+        }
+
+        return ResponseEntity.ok().build();
     }
 }
