@@ -1,5 +1,8 @@
 package com.in28minutes.rest.webservices.restfulwebservices.old;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +13,8 @@ import java.util.stream.Collectors;
 
 @RestController
 public class MyController {
+    @Autowired
+    private MessageSource messageSource;
 
     @GetMapping(path = "/")
     public ArrayList<String> home () {
@@ -17,6 +22,11 @@ public class MyController {
         list.add("Salve!");
 
         return list;
+    }
+
+    @GetMapping(path = "/i18n")
+    public String i18n () {
+        return messageSource.getMessage("greeting.message", null, LocaleContextHolder.getLocale());
     }
 
     @GetMapping(path = "/bean")
