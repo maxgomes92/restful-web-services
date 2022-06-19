@@ -16,13 +16,13 @@ public class MyController {
     @Autowired
     private MessageSource messageSource;
 
-    @GetMapping(path = "/")
-    public ArrayList<String> home () {
-        var list = new ArrayList<String>();
-        list.add("Salve!");
-
-        return list;
-    }
+//    @GetMapping(path = "/")
+//    public ArrayList<String> home () {
+//        var list = new ArrayList<String>();
+//        list.add("Salve!");
+//
+//        return list;
+//    }
 
     @GetMapping(path = "/i18n")
     public String i18n () {

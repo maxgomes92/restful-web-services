@@ -1,9 +1,13 @@
 package com.in28minutes.rest.webservices.restfulwebservices.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
+@JsonIgnoreProperties({ "birthDate" })
 public class User {
     private Integer id;
 
@@ -13,10 +17,14 @@ public class User {
     @Past
     private Date birthDate;
 
+    @JsonIgnore
+    private String password;
+
     public User(Integer id, String name, Date birthDate) {
         this.id = id;
         this.name = name;
         this.birthDate = birthDate;
+        this.password = "abc123";
     }
 
     public void setId(Integer id) {
@@ -41,6 +49,14 @@ public class User {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

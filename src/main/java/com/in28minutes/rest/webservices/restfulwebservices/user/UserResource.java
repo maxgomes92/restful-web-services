@@ -1,9 +1,12 @@
 package com.in28minutes.rest.webservices.restfulwebservices.user;
 
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +32,16 @@ public class UserResource {
     @GetMapping(path = "users")
     public List<User> retrieveAllUsers () {
         return userDaoService.findAll();
+    }
+
+    @GetMapping(path = "users-without-ids")
+    public List<User> retrieveAllUsersWithoutIds () {
+        var users = userDaoService.findAll();
+
+        var filter = SimpleBeanPropertyFilter.filterOutAllExcept("name");
+        var filters = new SimpleFilterProvider().addFilter("users-wihout-ids", filter);
+        var mapping = new MappingJacksonValue(users);
+        mapping.setFilters(filters);
     }
 
     @GetMapping(path = "users/{id}")
