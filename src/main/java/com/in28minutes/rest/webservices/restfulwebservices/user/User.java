@@ -1,5 +1,6 @@
 package com.in28minutes.rest.webservices.restfulwebservices.user;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -7,7 +8,8 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-@JsonIgnoreProperties({ "birthDate" })
+//@JsonIgnoreProperties({ "birthDate" })
+@JsonFilter("UsersWithoutIds")
 public class User {
     private Integer id;
 
@@ -17,7 +19,7 @@ public class User {
     @Past
     private Date birthDate;
 
-    @JsonIgnore
+//    @JsonIgnore
     private String password;
 
     public User(Integer id, String name, Date birthDate) {

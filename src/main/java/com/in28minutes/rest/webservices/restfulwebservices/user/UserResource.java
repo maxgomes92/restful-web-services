@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,13 +34,15 @@ public class UserResource {
     }
 
     @GetMapping(path = "users-without-ids")
-    public List<User> retrieveAllUsersWithoutIds () {
+    public MappingJacksonValue retrieveAllUsersWithoutIds () {
         var users = userDaoService.findAll();
 
         var filter = SimpleBeanPropertyFilter.filterOutAllExcept("name");
-        var filters = new SimpleFilterProvider().addFilter("users-wihout-ids", filter);
+        var filters = new SimpleFilterProvider().addFilter("UsersWithoutIds", filter);
         var mapping = new MappingJacksonValue(users);
         mapping.setFilters(filters);
+
+        return mapping;
     }
 
     @GetMapping(path = "users/{id}")
