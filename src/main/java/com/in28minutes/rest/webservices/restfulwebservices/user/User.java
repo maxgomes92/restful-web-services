@@ -1,16 +1,20 @@
 package com.in28minutes.rest.webservices.restfulwebservices.user;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
 //@JsonIgnoreProperties({ "birthDate" })
 @JsonFilter("UsersWithoutIds")
+@Entity
 public class User {
+    @Id
+    @GeneratedValue
     private Integer id;
 
     @Size(min=2, message = "Name should have at least 2 characters")
@@ -21,6 +25,8 @@ public class User {
 
 //    @JsonIgnore
     private String password;
+
+    public User() {}
 
     public User(Integer id, String name, Date birthDate) {
         this.id = id;
