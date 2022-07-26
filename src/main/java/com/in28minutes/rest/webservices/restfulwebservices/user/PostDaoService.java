@@ -3,8 +3,8 @@ package com.in28minutes.rest.webservices.restfulwebservices.user;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PostDaoService {
@@ -13,6 +13,10 @@ public class PostDaoService {
     public List<Post> getPosts (int userId) {
         System.out.println(posts.size());
         return posts.stream().filter(post -> post.createdBy.getId() == userId).toList();
+    }
+
+    public Post createPostByUser (Optional<User> user, String message) {
+        return createPostByUser(user.get(), message);
     }
 
     public Post createPostByUser (User user, String message) {

@@ -1,6 +1,7 @@
 package com.in28minutes.rest.webservices.restfulwebservices.user;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +11,6 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 //@JsonIgnoreProperties({ "birthDate" })
-@JsonFilter("UsersWithoutIds")
 @Entity
 public class User {
     @Id
@@ -23,7 +23,7 @@ public class User {
     @Past
     private Date birthDate;
 
-//    @JsonIgnore
+    @JsonIgnore
     private String password;
 
     public User() {}
