@@ -12,7 +12,7 @@ public class PostDaoService {
 
     public List<Post> getPosts (int userId) {
         System.out.println(posts.size());
-        return posts.stream().filter(post -> post.createdBy.getId() == userId).toList();
+        return posts.stream().filter(post -> post.getCreatedBy().getId() == userId).toList();
     }
 
     public Post createPostByUser (Optional<User> user, String message) {
@@ -30,7 +30,7 @@ public class PostDaoService {
     public Post getPostById (int userId, int postId) {
         return posts
                 .stream()
-                .filter(post -> post.createdBy.getId() == userId)
+                .filter(post -> post.getCreatedBy().getId() == userId)
                 .filter(post -> post.getId() == postId).findAny().orElse(null);
     }
 }

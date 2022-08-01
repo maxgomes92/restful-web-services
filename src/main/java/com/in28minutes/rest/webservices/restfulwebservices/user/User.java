@@ -6,9 +6,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 //@JsonIgnoreProperties({ "birthDate" })
 @Entity
@@ -25,6 +27,9 @@ public class User {
 
     @JsonIgnore
     private String password;
+
+    @OneToMany(mappedBy = "createdBy")
+    private List<Post> posts;
 
     public User() {}
 
@@ -65,6 +70,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     @Override

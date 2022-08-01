@@ -1,10 +1,25 @@
 package com.in28minutes.rest.webservices.restfulwebservices.user;
 
-public class Post {
-    int id;
-    String message;
-    User createdBy;
+import org.springframework.context.annotation.Primary;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
+public class Post {
+    @Id
+    @GeneratedValue
+    private Integer id;
+
+    private String message;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User createdBy;
+
+    public Post() {}
 
     public Post(int id, String message, User createdBy) {
         this.id = id;

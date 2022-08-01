@@ -97,15 +97,7 @@ public class UserJPAResource {
     }
 
     @DeleteMapping(path = "/jpa/users/{id}")
-    public ResponseEntity deleteUserById (@PathVariable int id) {
-        var user = userRepository.findById(id);
-
-        if (user.isPresent()) {
-            throw new UserNotFoundException("User not found " + id);
-        }
-
+    public void deleteUserById (@PathVariable int id) {
         userRepository.deleteById(id);
-
-        return ResponseEntity.ok().build();
     }
 }
