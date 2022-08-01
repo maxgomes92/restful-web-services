@@ -27,7 +27,7 @@ public class UserJPAResource {
     private UserRepository userRepository;
 
     @Autowired
-    private PostDaoService postDaoService;
+    private PostRepository postRepository;
 
     @GetMapping(path = "/jpa/users")
     public List<User> retrieveAllUsers () {
@@ -75,29 +75,37 @@ public class UserJPAResource {
         return ResponseEntity.created(location).build();
     }
 
-    @GetMapping(path = "/jpa/users/{id}/posts")
-    public List<Post> getPosts(@PathVariable int id) {
-        return postDaoService.getPosts(id);
-    }
-
     @PostMapping(path = "/jpa/users/{id}/posts")
-    public Post createPost(@PathVariable int id, @RequestBody String message) {
+    public Post createPost(@Valid @RequestBody Post post, @PathVariable int id) {
         var user = userRepository.findById(id);
 
         if (user.isEmpty()) {
             throw new UserNotFoundException("User not found " + id);
         }
 
-        return postDaoService.createPostByUser(user, message);
+        post.setCreatedBy(user.get());
+
+        return postRepository.save(post);
     }
 
-    @GetMapping(path = "/jpa/users/{userId}/posts/{postId}")
-    public Post getPostFromUser (@PathVariable int userId, @PathVariable int postId) {
-        return postDaoService.getPostById(userId, postId);
-    }
+//    @GetMapping(path = "/jpa/users/{userId}/posts/{postId}")
+//    public Post getPostFromUser (@PathVariable int userId, @PathVariable int postId) {
+//        return postDaoService.getPostById(userId, postId);
+//    }
 
     @DeleteMapping(path = "/jpa/users/{id}")
     public void deleteUserById (@PathVariable int id) {
         userRepository.deleteById(id);
+    }
+
+    @GetMapping(path = "/jpa/users/{id}/posts")
+    public List<Post> retrieveAllPosts (@PathVariable int id) {
+        var userOptional = userRepository.findById(id);
+
+        if (userOptional.isEmpty()) {
+            throw new UserNotFoundException("User " + id + " was not found!");
+        }
+
+        return userOptional.get().getPosts();
     }
 }

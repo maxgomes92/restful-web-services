@@ -1,5 +1,6 @@
 package com.in28minutes.rest.webservices.restfulwebservices.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.context.annotation.Primary;
 
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ public class Post {
     private String message;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private User createdBy;
 
     public Post() {}
